@@ -52,3 +52,9 @@ int main() {
 
     return 0;
 }
+```
+
+---
+## 🚀 Contributions
+
+I welcome contributions from the community! 🌱 Whether it's a feature request, a bug fix, or an enhancement, we’re excited to see your ideas. Feel free to fork the repository, submit a pull request, and help make this library even better!
