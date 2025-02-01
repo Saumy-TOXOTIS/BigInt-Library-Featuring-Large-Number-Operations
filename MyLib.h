@@ -38,8 +38,8 @@ using ll = long long;
 #define MyLib_H
 
 // Each block holds up to 9 decimal digits.
-const ll BASE = 1000000000LL;
-const int BASE_DIGITS = 9;
+const ll BASE = 1000000000000LL;
+const int BASE_DIGITS = 12;
 
 //===================================== Core Structure ========================================
 
@@ -346,8 +346,8 @@ BigInt operator%(const BigInt &a, const BigInt &b) {
 /*
 ======================================= How to Use ======================================
 
-#include <iostream>
-#include "MyLib.h"  -- Include the BigInt library header
+#include <bits/stdc++.h>
+#include "MyLib.h"  // Include the BigInt library header
 
 using namespace std;
 
@@ -356,21 +356,21 @@ int main() {
     BigInt a("12345678901234567890");
     BigInt b("9876543210");
 
-    -- Perform arithmetic operations.
+    // Perform arithmetic operations.
     BigInt sum = a + b;
     BigInt diff = a - b;
     BigInt prod = a * b;
     BigInt quot = a / b;
     BigInt rem = a % b;
 
-    -- Output the results.
-    cout << "a: " << a.toString() << "\n";
-    cout << "b: " << b.toString() << "\n";
-    cout << "Sum: " << sum.toString() << "\n";
-    cout << "Difference: " << diff.toString() << "\n";
-    cout << "Product: " << prod.toString() << "\n";
-    cout << "Quotient: " << quot.toString() << "\n";
-    cout << "Remainder: " << rem.toString() << "\n";
+    // Output the results.
+    cout << "a: " << a.toString() << endl;
+    cout << "b: " << b.toString() << endl;
+    cout << "Sum: " << sum.toString() << endl;
+    cout << "Difference: " << diff.toString() << endl;
+    cout << "Product: " << prod.toString() << endl;
+    cout << "Quotient: " << quot.toString() << endl;
+    cout << "Remainder: " << rem.toString() << endl;
 
     return 0;
 }
