@@ -1,6 +1,6 @@
 # 🚀 BigInt Library Featuring Large Number Operations
 
-A C++ BigInt Library designed to handle extremely large numbers efficiently, allowing seamless operations on numbers up to 10^10 digits. Whether you're working with cryptographic applications, scientific calculations, or large-scale data analysis, this library provides the precision and performance you need!
+A C++ BigInt Library designed to handle extremely large numbers efficiently, allowing seamless operations on numbers up to 10^13 digits. Whether you're working with cryptographic applications, scientific calculations, or large-scale data analysis, this library provides the precision and performance you need!
 
 ![C++](https://img.shields.io/badge/C%2B%2B-11%2B-blue.svg?style=flat-square&logo=c%2B%2B)
 ![GitHub](https://img.shields.io/badge/Repo-GitHub-black.svg?style=flat-square&logo=github)
@@ -12,7 +12,7 @@ A C++ BigInt Library designed to handle extremely large numbers efficiently, all
 | Feature                      | Description                                                         |
 |------------------------------|---------------------------------------------------------------------|
 | **Arithmetic Operations**     | Addition, Subtraction, Multiplication, Division, Modulo            |
-| **Base Representation**      | Optimized for **BASE = 10^9** to efficiently handle large numbers  |
+| **Base Representation**      | Optimized for **BASE = 10^12** to efficiently handle large numbers  |
 | **Block-Based Approach**     | High-performance BigInt handling with block-based techniques       |
 | **Sign Handling**            | Proper management of both **positive** and **negative** numbers    |
 | **String Conversion**        | Easy conversion between BigInts and strings for flexible I/O       |
