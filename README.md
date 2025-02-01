@@ -1,16 +1,54 @@
-BigInt Library Featuring Large Number Operations 🚀
-Welcome to BigInt Library, the ultimate tool for handling extremely large numbers with precision and speed! Whether you're dealing with massive datasets or need powerful mathematical operations, this library provides a robust solution for working with numbers up to 10^10 digits.
+# 🚀 BigInt Library Featuring Large Number Operations
 
-✨ Features:
-Addition, Subtraction, Multiplication, Division, Modulo: Full support for basic arithmetic operations on large numbers.
-Efficient Base Representation: Optimized for performance with a BASE = 10^9 to handle large numbers seamlessly.
-Block-based Approach: Smooth handling of BigInt operations without compromising speed.
-Sign Handling: Proper management of both positive and negative numbers.
-String Conversion: Convert your BigInts to and from strings with ease for flexibility in handling input/output.
-🛠️ Key Benefits:
-High Precision: Manage numbers with up to 10^10 digits, ensuring accuracy for critical applications.
-Optimized Performance: Engineered for fast arithmetic, even with large number sets.
-Easy Integration: Add to your C++ projects with minimal effort and start working with large numbers right away!
+A C++ BigInt Library designed to handle extremely large numbers efficiently, allowing seamless operations on numbers up to 10^10 digits. Whether you're working with cryptographic applications, scientific calculations, or large-scale data analysis, this library provides the precision and performance you need!
 
-🚀 Contributions:
-Feel free to open an issue, suggest improvements, or fork the project and submit a pull request! We love contributions and are always open to feedback.
+![C++](https://img.shields.io/badge/C%2B%2B-11%2B-blue.svg?style=flat-square&logo=c%2B%2B)
+![GitHub](https://img.shields.io/badge/Repo-GitHub-black.svg?style=flat-square&logo=github)
+
+---
+
+## 🏗 Library Features
+
+| Feature                      | Description                                                         |
+|------------------------------|---------------------------------------------------------------------|
+| **Arithmetic Operations**     | Addition, Subtraction, Multiplication, Division, Modulo            |
+| **Base Representation**      | Optimized for **BASE = 10^9** to efficiently handle large numbers  |
+| **Block-Based Approach**     | High-performance BigInt handling with block-based techniques       |
+| **Sign Handling**            | Proper management of both **positive** and **negative** numbers    |
+| **String Conversion**        | Easy conversion between BigInts and strings for flexible I/O       |
+
+---
+
+## 📈 Example Usage:
+
+### Example Code to Use BigInt Library:
+
+```cpp
+#include <iostream>
+#include "MyLib.h"  -- Include the BigInt library header
+
+using namespace std;
+
+int main() {
+    -- Create BigInt objects from strings.
+    BigInt a("12345678901234567890");
+    BigInt b("9876543210");
+
+    -- Perform arithmetic operations.
+    BigInt sum = a + b;
+    BigInt diff = a - b;
+    BigInt prod = a * b;
+    BigInt quot = a / b;
+    BigInt rem = a % b;
+
+    -- Output the results.
+    cout << "a: " << a.toString() << "\n";
+    cout << "b: " << b.toString() << "\n";
+    cout << "Sum: " << sum.toString() << "\n";
+    cout << "Difference: " << diff.toString() << "\n";
+    cout << "Product: " << prod.toString() << "\n";
+    cout << "Quotient: " << quot.toString() << "\n";
+    cout << "Remainder: " << rem.toString() << "\n";
+
+    return 0;
+}
