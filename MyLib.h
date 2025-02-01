@@ -17,7 +17,7 @@ precision beyond typical computational limits.
 
 Features:
 - Supports addition, subtraction, multiplication, division, and modulo operations.
-- Handles numbers with up to 10^10 digits with ease.
+- Handles numbers with up to 10^13 digits with ease.
 - Flexible input from strings, long longs, and more.
 - Built-in sign handling for positive and negative numbers.
 - Easy-to-use interface to convert between BigInt and strings.
@@ -37,7 +37,7 @@ using ll = long long;
 #ifndef MyLib_H
 #define MyLib_H
 
-// Each block holds up to 9 decimal digits.
+// Each block holds up to 12 decimal digits.
 const ll BASE = 1000000000000LL;
 const int BASE_DIGITS = 12;
 
