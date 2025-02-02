@@ -33,11 +33,20 @@ Features:
     • Conversion to built‑in long long (if the number fits).
     • Fast doubling Fibonacci, factorial, and binomial coefficient functions.
     • Overload of pow for an unsigned long long exponent.
-- **New operations:**  
+- **New operations:**
     • GCD and LCM  
     • Miller‑Rabin Primality Test (isPrime)  
     • nthRoot (integer nth‑root)  
-    • factorialDC (divide‑and‑conquer factorial)
+    • factorialDC (divide‑and‑conquer factorial)  
+    • Pollard‑Rho Factorization (pollardRho)  
+    • floorLog (floor logarithm)  
+    • modSqrt (modular square root)  
+    • totient (Euler's totient function)  
+    • primeFactors (prime factorization)  
+    • sumDigits (sum of decimal digits)  
+    • digitalRoot (iterative digital sum to one digit)  
+    • isPerfectSquare (check if perfect square)  
+    • isPalindrome (check if number’s string is a palindrome)  
 ===============================================================================
 */
 
@@ -565,7 +574,7 @@ istream& operator>>(istream &is, BigInt &n) {
 
 // Exponentiation by squaring (BigInt exponent).
 // Modified: Instead of doing "exp % two", we check the least-significant block.
-// Also, we use the division-by-ll operator (which is reliable for small divisors).
+// Also, we use the division-by-ll operator.
 BigInt pow(BigInt base, BigInt exp) {
     if(exp < BigInt(0))
         throw runtime_error("Negative exponent not supported.");
@@ -680,18 +689,13 @@ bool isPrime(const BigInt &n, int iterations = 5) {
     if((n % 2) == BigInt(0))
         return false;
 
-    // Write n - 1 as d * 2^s.
     BigInt d = n - BigInt(1);
     int s = 0;
     while((d % 2) == BigInt(0)) {
         d = d / 2;
         s++;
     }
-
-    // Load primes from file "primes.txt" (only once).
     static vector<ll> testPrimes = loadPrimesFromFile("Prime_Number_Library.txt");
-
-    // Use the loaded primes as bases.
     for(auto a : testPrimes) {
         if(BigInt(a) >= n)
             break;
@@ -719,15 +723,11 @@ BigInt nthRoot(const BigInt &a, unsigned int n) {
         throw runtime_error("Zeroth root is undefined.");
     if(a < BigInt(0) && (n % 2 == 0))
         throw runtime_error("Even root of a negative number is undefined.");
-    // For negative a and odd n, result will be negative.
     bool neg = false;
     BigInt x = a;
     if(x < BigInt(0)) { neg = true; x = -x; }
-
-    // Determine approximate high bound by using digit count.
     string s = x.toString();
     int len = s.size();
-    // Rough estimate: high ~ 10^(ceil(len/n))
     BigInt high("1");
     for (int i = 0; i < (len + n - 1) / n; i++)
         high = high * 10;
@@ -745,8 +745,7 @@ BigInt nthRoot(const BigInt &a, unsigned int n) {
     return neg ? -ans : ans;
 }
 
-// New: Divide and Conquer Factorial (efficient for large n).
-// Helper function: factorial in range [l, r].
+// New: Divide and Conquer Factorial.
 BigInt factRec(unsigned int l, unsigned int r) {
     if(l > r)
         return BigInt(1);
@@ -761,27 +760,189 @@ BigInt factorialDC(unsigned int n) {
     return factRec(1, n);
 }
 
+// New: Pollard-Rho Factorization.
+// Returns a non-trivial factor of n (if composite), otherwise n.
+BigInt pollardRho(const BigInt &n) {
+    if(n % 2 == BigInt(0))
+        return BigInt(2);
+    BigInt x = BigInt(2), y = BigInt(2), d = BigInt(1);
+    srand(time(nullptr));
+    BigInt c = BigInt(rand() % 100 + 1);
+    while(d == BigInt(1)) {
+        x = (x * x + c) % n;
+        y = (y * y + c) % n;
+        y = (y * y + c) % n;
+        BigInt diff = (x > y ? x - y : y - x);
+        d = gcd(diff, n);
+        if(d == n)
+            return pollardRho(n);
+    }
+    return d;
+}
+
+// New: primeFactors - returns a vector of prime factors (not necessarily distinct).
+vector<BigInt> primeFactors(BigInt n) {
+    vector<BigInt> factors;
+    if(n < BigInt(2))
+        return factors;
+    // Remove factors of 2.
+    while(n % 2 == BigInt(0)) {
+        factors.push_back(BigInt(2));
+        n = n / 2;
+    }
+    if(n == BigInt(1))
+        return factors;
+    if(isPrime(n))
+    {
+        factors.push_back(n);
+        return factors;
+    }
+    BigInt factor = pollardRho(n);
+    vector<BigInt> left = primeFactors(factor);
+    vector<BigInt> right = primeFactors(n / factor);
+    factors.insert(factors.end(), left.begin(), left.end());
+    factors.insert(factors.end(), right.begin(), right.end());
+    return factors;
+}
+
+// New: totient - Euler's Totient Function.
+BigInt totient(BigInt n) {
+    if(n == BigInt(0))
+        return BigInt(0);
+    n = n.abs();
+    vector<BigInt> factors = primeFactors(n);
+    // Get distinct primes.
+    sort(factors.begin(), factors.end(), [](const BigInt &a, const BigInt &b) { return compareBigInt(a, b) < 0; });
+    vector<BigInt> distinct;
+    for (auto &f : factors) {
+        if(distinct.empty() || distinct.back() != f)
+            distinct.push_back(f);
+    }
+    BigInt result = n;
+    for(auto &p : distinct)
+        result = result - (result / p);
+    return result;
+}
+
+// New: sumDigits - returns the sum of decimal digits.
+BigInt sumDigits(const BigInt &n) {
+    string s = n.toString();
+    BigInt sum(0);
+    for(char c : s) {
+        if(isdigit(c))
+            sum = sum + BigInt(c - '0');
+    }
+    return sum;
+}
+
+// New: digitalRoot - repeatedly sum digits until a single digit remains.
+BigInt digitalRoot(const BigInt &n) {
+    BigInt d = sumDigits(n);
+    while(d.a.size() > 1 || (d.a.size() == 1 && d.a[0] >= 10))
+        d = sumDigits(d);
+    return d;
+}
+
+// New: isPerfectSquare - returns true if n is a perfect square.
+bool isPerfectSquare(const BigInt &n) {
+    if(n < BigInt(0))
+        return false;
+    BigInt r = sqrt(n);
+    return (r * r) == n;
+}
+
+// New: isPalindrome - returns true if the decimal representation is a palindrome.
+bool isPalindrome(const BigInt &n) {
+    string s = n.toString();
+    string rs = s;
+    reverse(rs.begin(), rs.end());
+    return s == rs;
+}
+
+// New: floorLog - returns floor(log_base(n)).
+unsigned int floorLog(const BigInt &n, unsigned int base) {
+    if(n < BigInt((ll)base))
+        return 0;
+    unsigned int count = 0;
+    BigInt temp = n;
+    while(temp >= BigInt((ll)base)) {
+        temp = temp / base;
+        count++;
+    }
+    return count;
+}
+
+// Modular Square Root using Tonelli-Shanks algorithm.
+// Returns a square root of 'a' modulo prime 'p' if one exists,
+// otherwise throws a runtime_error.
+BigInt modSqrt(const BigInt &a, const BigInt &p) {
+    // If a is 0 modulo p, then the square root is 0.
+    if(a % p == BigInt(0))
+        return BigInt(0);
+    
+    // Check if 'a' is a quadratic residue mod p using Euler's criterion.
+    if(modPow(a, (p - BigInt(1)) / 2, p) != BigInt(1))
+        throw runtime_error("No square root exists for the given value modulo p.");
+    
+    // If p mod 4 == 3, the square root can be computed directly.
+    if(p % BigInt(4) == BigInt(3))
+        return modPow(a, (p + BigInt(1)) / 4, p);
+    
+    // Write p - 1 as s * 2^e with s odd.
+    BigInt s = p - BigInt(1);
+    unsigned int e = 0;
+    while(s % BigInt(2) == BigInt(0)) {
+        s = s / BigInt(2);
+        e++;
+    }
+    
+    // Find a quadratic non-residue n (i.e., modPow(n, (p-1)/2, p) != 1).
+    BigInt n(2);
+    while(modPow(n, (p - BigInt(1)) / 2, p) == BigInt(1))
+        n = n + BigInt(1);
+    
+    // Initialize variables.
+    BigInt x = modPow(a, (s + BigInt(1)) / 2, p);
+    BigInt b = modPow(a, s, p);
+    BigInt g = modPow(n, s, p);
+    unsigned int r = e;
+    
+    // Loop until b becomes 1.
+    while(b != BigInt(1)) {
+        unsigned int m = 0;
+        BigInt t = b;
+        while(t != BigInt(1)) {
+            t = (t * t) % p;
+            m++;
+            if(m == r)
+                throw runtime_error("modSqrt failure.");
+        }
+        BigInt gs = modPow(g, BigInt((ll)(1ULL << (r - m - 1))), p);
+        x = (x * gs) % p;
+        g = (gs * gs) % p;
+        b = (b * g) % p;
+        r = m;
+    }
+    return x;
+}
+
 //=====================================
 //      Additional Utility Operations
 //=====================================
 
-// Compound assignment operators.
 inline BigInt& operator+=(BigInt &a, const BigInt &b) { a = a + b; return a; }
 inline BigInt& operator-=(BigInt &a, const BigInt &b) { a = a - b; return a; }
 inline BigInt& operator*=(BigInt &a, const BigInt &b) { a = a * b; return a; }
 inline BigInt& operator/=(BigInt &a, const BigInt &b) { a = a / b; return a; }
 inline BigInt& operator%=(BigInt &a, const BigInt &b) { a = a % b; return a; }
 
-// Pre- and post-increment/decrement.
 inline BigInt& operator++(BigInt &a) { a = a + BigInt(1); return a; }
 inline BigInt operator++(BigInt &a, int) { BigInt temp = a; a = a + BigInt(1); return temp; }
 inline BigInt& operator--(BigInt &a) { a = a - BigInt(1); return a; }
 inline BigInt operator--(BigInt &a, int) { BigInt temp = a; a = a - BigInt(1); return temp; }
 
-// Conversion to long long (if it fits in 64 bits).
 long long toLL(const BigInt &a) {
     BigInt temp = a.abs();
-    // Rough check: if more than 2 blocks, it is likely too big.
     if(temp.a.size() > 2)
         throw runtime_error("BigInt does not fit in long long");
     long long result = 0;
@@ -790,7 +951,6 @@ long long toLL(const BigInt &a) {
     return a.sign ? result : -result;
 }
 
-// Fast doubling Fibonacci algorithm.
 pair<BigInt, BigInt> fibPair(unsigned long long n) {
     if(n == 0)
         return {BigInt(0), BigInt(1)};
@@ -807,7 +967,6 @@ BigInt fibonacci(unsigned long long n) {
     return fibPair(n).first;
 }
 
-// Standard iterative factorial.
 BigInt factorial(unsigned int n) {
     BigInt res(1);
     for(unsigned int i = 2; i <= n; i++)
@@ -815,7 +974,6 @@ BigInt factorial(unsigned int n) {
     return res;
 }
 
-// Binomial Coefficient: n choose k.
 BigInt binom(unsigned int n, unsigned int k) {
     if(k > n)
         return BigInt(0);
@@ -860,6 +1018,15 @@ int main() {
     bool prime = isPrime(a);
     BigInt nroot = nthRoot(a, 3);                  // cube root of a (floor)
     BigInt factDC = factorialDC(20);               // factorial using divide & conquer
+    BigInt factor = pollardRho(b);                 // a non-trivial factor of b
+    unsigned int flog = floorLog(a, 10);           // floor(log_10(a))
+    BigInt msqrt = modSqrt(BigInt("56"), BigInt("101")); 
+    BigInt tot = totient(a);                       // Euler's totient of a
+    vector<BigInt> pf = primeFactors(a);           // prime factors of a
+    BigInt sdig = sumDigits(a);                    // sum of digits of a
+    BigInt droot = digitalRoot(a);                 // digital root of a
+    bool psq = isPerfectSquare(a);                 // is a perfect square?
+    bool pal = isPalindrome(a);                    // is a palindrome?
 
     // Compound assignment & increment/decrement demonstration.
     BigInt c = a;
@@ -897,6 +1064,18 @@ int main() {
     cout << "isPrime(a): " << (prime ? "true" : "false") << "\n";
     cout << "nthRoot(a, 3): " << nroot << "\n";
     cout << "factorialDC(20): " << factDC << "\n";
+    cout << "pollardRho(b): " << factor << "\n";
+    cout << "floorLog(a, 10): " << flog << "\n";
+    cout << "modSqrt(56, 101): " << msqrt << "\n";
+    cout << "totient(a): " << tot << "\n";
+    cout << "primeFactors(a): ";
+    for(auto &pfac : pf)
+        cout << pfac << " ";
+    cout << "\n";
+    cout << "sumDigits(a): " << sdig << "\n";
+    cout << "digitalRoot(a): " << droot << "\n";
+    cout << "isPerfectSquare(a): " << (psq ? "true" : "false") << "\n";
+    cout << "isPalindrome(a): " << (pal ? "true" : "false") << "\n";
     cout << "After compound assignment/increment: " << c << "\n";
     cout << "Fibonacci(50): " << fib50 << "\n";
     cout << "Factorial(10): " << fact10 << "\n";
