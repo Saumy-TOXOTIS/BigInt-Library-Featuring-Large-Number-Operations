@@ -31,24 +31,88 @@ using namespace std;
 
 int main() {
     // Create BigInt objects from strings.
-    BigInt a("12345678901234567890");
+    BigInt a("1234567890");
     BigInt b("9876543210");
 
-    // Perform arithmetic operations.
     BigInt sum = a + b;
     BigInt diff = a - b;
     BigInt prod = a * b;
     BigInt quot = a / b;
     BigInt rem = a % b;
 
-    // Output the results.
-    cout << "a: " << a.toString() << endl;
-    cout << "b: " << b.toString() << endl;
-    cout << "Sum: " << sum.toString() << endl;
-    cout << "Difference: " << diff.toString() << endl;
-    cout << "Product: " << prod.toString() << endl;
-    cout << "Quotient: " << quot.toString() << endl;
-    cout << "Remainder: " << rem.toString() << endl;
+    BigInt expVal = pow(a, BigInt("3"));         // a^3 using BigInt exponent
+    BigInt expVal2 = pow(a, 3ULL);                 // a^3 using unsigned long long exponent
+    BigInt modExp = modPow(a, BigInt("100"), b);    // a^100 mod b
+    BigInt root = sqrt(a);                         // integer square root of a
+
+    // New operations demonstration:
+    BigInt g = gcd(a, b);
+    BigInt l = lcm(a, b);
+    bool prime = isPrime(a);
+    BigInt nroot = nthRoot(a, 3);                  // cube root of a (floor)
+    BigInt factDC = factorialDC(20);               // factorial using divide & conquer
+    BigInt factor = pollardRho(b);                 // a non-trivial factor of b
+    unsigned int flog = floorLog(a, 10);           // floor(log_10(a))
+    BigInt msqrt = modSqrt(BigInt("56"), BigInt("101")); 
+    BigInt tot = totient(a);                       // Euler's totient of a
+    vector<BigInt> pf = primeFactors(a);           // prime factors of a
+    BigInt sdig = sumDigits(a);                    // sum of digits of a
+    BigInt droot = digitalRoot(a);                 // digital root of a
+    bool psq = isPerfectSquare(a);                 // is a perfect square?
+    bool pal = isPalindrome(a);                    // is a palindrome?
+
+    // Compound assignment & increment/decrement demonstration.
+    BigInt c = a;
+    c += b;
+    c++;
+    c *= BigInt(2);
+
+    // Convert to long long (if it fits)
+    try {
+        long long llVal = toLL(BigInt("1234567"));
+        cout << "toLL: " << llVal << "\n";
+    } catch(const exception &e) {
+        cout << e.what() << "\n";
+    }
+
+    // Fibonacci (nth Fibonacci number)
+    BigInt fib50 = fibonacci(50ULL);
+
+    // Standard Factorial & Binomial Coefficient
+    BigInt fact10 = factorial(10);
+    BigInt binom10_3 = binom(10, 3);
+
+    cout << "a: " << a << "\n";
+    cout << "b: " << b << "\n";
+    cout << "Sum: " << sum << "\n";
+    cout << "Difference: " << diff << "\n";
+    cout << "Product: " << prod << "\n";
+    cout << "Quotient: " << quot << "\n";
+    cout << "Remainder: " << rem << "\n";
+    cout << "a^3: " << expVal << "   " << expVal2 << "\n";
+    cout << "a^100 mod b: " << modExp << "\n";
+    cout << "sqrt(a): " << root << "\n";
+    cout << "gcd(a, b): " << g << "\n";
+    cout << "lcm(a, b): " << l << "\n";
+    cout << "isPrime(a): " << (prime ? "true" : "false") << "\n";
+    cout << "nthRoot(a, 3): " << nroot << "\n";
+    cout << "factorialDC(20): " << factDC << "\n";
+    cout << "pollardRho(b): " << factor << "\n";
+    cout << "floorLog(a, 10): " << flog << "\n";
+    cout << "modSqrt(56, 101): " << msqrt << "\n";
+    cout << "totient(a): " << tot << "\n";
+    cout << "primeFactors(a): ";
+    for(auto &pfac : pf)
+        cout << pfac << " ";
+    cout << "\n";
+    cout << "sumDigits(a): " << sdig << "\n";
+    cout << "digitalRoot(a): " << droot << "\n";
+    cout << "isPerfectSquare(a): " << (psq ? "true" : "false") << "\n";
+    cout << "isPalindrome(a): " << (pal ? "true" : "false") << "\n";
+    cout << "After compound assignment/increment: " << c << "\n";
+    cout << "Fibonacci(50): " << fib50 << "\n";
+    cout << "Factorial(10): " << fact10 << "\n";
+    cout << "Binom(10, 3): " << binom10_3 << "\n";
 
     return 0;
 }
