@@ -135,6 +135,12 @@ int main() {
     cout << "Factorial(10): " << fact10 << "\n";
     cout << "Binom(10, 3): " << binom10_3 << "\n";
 
+    // Collatz Sequence Generator
+    for(auto e : collatzSequence(a))
+    {
+        cout<<e<<endl;
+    }
+
     return 0;
 }
 ```
