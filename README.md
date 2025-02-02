@@ -1,6 +1,6 @@
 # 🚀 BigInt Library Featuring Large Number Operations
 
-A C++ BigInt Library designed to handle extremely large numbers efficiently, allowing seamless operations on numbers up to 10^13 digits. Whether you're working with cryptographic applications, scientific calculations, or large-scale data analysis, this library provides the precision and performance you need!
+A C++ BigInt Library designed to handle extremely large numbers efficiently, allowing seamless operations on numbers up to **10^13 digits**. Whether you're working with **cryptographic applications, scientific calculations, or large-scale data analysis**, this library provides the precision and performance you need!
 
 ![C++](https://img.shields.io/badge/C%2B%2B-11%2B-blue.svg?style=flat-square&logo=c%2B%2B)
 ![GitHub](https://img.shields.io/badge/Repo-GitHub-black.svg?style=flat-square&logo=github)
@@ -12,10 +12,30 @@ A C++ BigInt Library designed to handle extremely large numbers efficiently, all
 | Feature                      | Description                                                         |
 |------------------------------|---------------------------------------------------------------------|
 | **Arithmetic Operations**     | Addition, Subtraction, Multiplication, Division, Modulo            |
-| **Base Representation**      | Optimized for **BASE = 10^12** to efficiently handle large numbers  |
+| **Base Representation**      | Optimized for **BASE = 10^9** to efficiently handle large numbers  |
 | **Block-Based Approach**     | High-performance BigInt handling with block-based techniques       |
 | **Sign Handling**            | Proper management of both **positive** and **negative** numbers    |
 | **String Conversion**        | Easy conversion between BigInts and strings for flexible I/O       |
+| **Optimized Multiplication** | Uses **Karatsuba** and **FFT-based convolution** for efficiency    |
+| **Exponentiation**           | Supports **BigInt exponents** and **modular exponentiation**       |
+| **GCD & LCM**                | Compute **Greatest Common Divisor** and **Least Common Multiple**  |
+| **Prime Testing**            | Miller-Rabin primality test for **fast prime verification**        |
+| **Advanced Math Functions**  | Square root, nth-root, Euler’s totient, factorial, Fibonacci       |
+| **Number Properties**        | Check for **perfect squares, palindromes, and digital roots**      |
+| **Factorization**            | **Pollard-Rho** algorithm for prime factorization                  |
+| **Logarithms**               | **Floor logarithm** for large integer bases                        |
+
+---
+
+## 🛠 Additional Features
+
+- **Compound Operators**: Supports `+=, -=, *=, /=, %=` for seamless arithmetic.
+- **Pre/Post Increment & Decrement**: Just like built-in integers.
+- **Conversion to long long**: If the BigInt fits within a standard integer type.
+- **Modular Square Root**: Computes square roots under a modulus.
+- **Binomial Coefficients**: Efficient calculation for combinatorial operations.
+- **Efficient Factorial Computation**: Uses **Divide & Conquer factorial** algorithm.
+- **Flexible Input Handling**: Accepts numbers from **strings, integers, and other formats**.
 
 ---
 
