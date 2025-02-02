@@ -1,6 +1,6 @@
 # 🚀 BigInt Library Featuring Large Number Operations
 
-A C++ BigInt Library designed to handle extremely large numbers efficiently, allowing seamless operations on numbers up to **10^13 digits**. Whether you're working with **cryptographic applications, scientific calculations, or large-scale data analysis**, this library provides the precision and performance you need!
+A C++ BigInt Library designed to handle extremely large numbers efficiently, allowing seamless operations on numbers up to **10^13 digits**. This library provides the precision and performance!
 
 ![C++](https://img.shields.io/badge/C%2B%2B-11%2B-blue.svg?style=flat-square&logo=c%2B%2B)
 ![GitHub](https://img.shields.io/badge/Repo-GitHub-black.svg?style=flat-square&logo=github)
@@ -24,6 +24,7 @@ A C++ BigInt Library designed to handle extremely large numbers efficiently, all
 | **Number Properties**        | Check for **perfect squares, palindromes, and digital roots**      |
 | **Factorization**            | **Pollard-Rho** algorithm for prime factorization                  |
 | **Logarithms**               | **Floor logarithm** for large integer bases                        |
+| **Collatz Sequence**         | **Generate Collatz Sequence** for desired number ( for positive integers only)                   |
 
 ---
 
